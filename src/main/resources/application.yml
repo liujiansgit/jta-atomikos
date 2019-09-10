@@ -1,0 +1,102 @@
+spring:
+  jta:
+    enabled: true
+    atomikos:
+      properties:
+        service: com.atomikos.icatch.standalone.UserTransactionServiceFactory
+        max-actives: 200
+        # 关闭atomikos日志文件输出
+        enable-logging: true
+        log-base-dir: translogs  #事务日志配置
+        log-base-name: tmlog
+      datasource:
+        first:
+          unique-resource-name: first
+          xa-data-source-class-name: com.mysql.cj.jdbc.MysqlXADataSource
+          poolSize: 5
+          minPoolSize: 3
+          maxPoolSize: 20
+          borrowConnectionTimeout: 60
+          reapTimeout: 300
+          maxIdleTime: 60
+          maintenanceInterval: 60
+          loginTimeout: 60
+          testQuery: select 1
+          xa-properties:
+            url: jdbc:mysql://192.168.17.10:3306/user?useUnicode=true&characterEncoding=UTF-8&useSSL=false&rewriteBatchedStatements=true&useLocalSessionState=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+            user: root
+            password: root123
+        second:
+          unique-resource-name: second
+          xa-data-source-class-name: com.mysql.cj.jdbc.MysqlXADataSource
+          poolSize: 5
+          minPoolSize: 3
+          maxPoolSize: 20
+          borrowConnectionTimeout: 60
+          reapTimeout: 300
+          maxIdleTime: 60
+          maintenanceInterval: 60
+          loginTimeout: 60
+          testQuery: select 1
+          xa-properties:
+            url: jdbc:mysql://192.168.17.10:3307/user_log?useUnicode=true&characterEncoding=UTF-8&useSSL=false&rewriteBatchedStatements=true&useLocalSessionState=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+            user: root
+            password: root123
+
+#mybatis配置
+#mybatis:
+  #  type-aliases-package: ${application.base-package}.domain
+#  configuration:
+#    mapUnderscoreToCamelCase: true
+    #    jdbcTypeForNull: VARCHAR
+    #    cacheEnabled: false
+    #    default-statement-timeout: 5
+#    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+
+logging:
+  level:
+    com.atomikos: debug
+
+
+
+#    #从库数据库
+#    first:
+#      url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8&useSSL=false&rewriteBatchedStatements=true&useLocalSessionState=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+#      #Spring Boot 2.0 includes HikariDataSource by default
+#      #spring.datasource.type = com.zaxxer.hikari.HikariDataSource
+#      username: root
+#      password: root123
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      # 测试连接有效性语句
+#      connection-test-query: select 1
+#      # 验证连接有效性的超时时间
+#      validation-timeout: 5000
+#      # 数据库连接超时时间,默认30秒，改为300000,即5分钟
+#      connection-timeout: 300000
+#      minimum-idle: 10
+#      maximum-pool-size: 10
+#      # 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟 需大于mysql
+#      max-lifetime: 1800000
+#      # 空闲连接存活最大时间，默认600000（10分钟）
+#      idle-timeout: 600000
+#      # 连接池名称
+#      pool-name: HikariPool-1
+#    #日志数据库
+#    second:
+#      url: jdbc:mysql://localhost:3306/test3?useUnicode=true&characterEncoding=UTF-8&useSSL=false&rewriteBatchedStatements=true&useLocalSessionState=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+#      # serverTimezone=GMT%2B8 北京东八区时间
+#      #      type: com.zaxxer.hikari.HikariDataSource
+#      username: root
+#      password: root123
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      connection-test-query: select 1
+#      validation-timeout: 5000
+#      connection-timeout: 50000
+#      minimum-idle: 10
+#      maximum-pool-size: 10
+#      # 30分钟
+#      max-lifetime: 1800000
+#      # 空闲连接存活最大时间，默认600000（10分钟）
+#      idle-timeout: 600000
+#      # 连接池名称
+#      pool-name: HikariPool-2
